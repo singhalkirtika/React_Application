@@ -1,29 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardBody, CardTitle, CardImg, CardText } from 'reactstrap';
 
-class DishDetail extends Component {
-      constructor(props){
-        super(props);
-        console.log("DishDetail constructor invoked");
-      }
+function RenderDish({dish}){
+      return(
+        <Card>
+          <CardImg top src={dish.image} alt={dish.name}/>
+            <CardBody>
+              <CardTitle>{dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+          </CardBody>
+       </Card>
+    );
+  }
 
-      renderDish(dish){
-        return(
-          <Card>
-            <CardImg top src={dish.image} alt={dish.name}/>
-              <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-              </CardBody>
-          </Card>
-        );
-      }
-
-      renderComments(comments_dish){
+function RenderComments({comment_dish}){
        return (
          <ul className="list-unstyled">
         {
-          comments_dish.map( (comments) => {
+          comment_dish.map( (comments) => {
           return(
             <li key={comments.id}>
               <p>{comments.comment}</p>
@@ -35,21 +29,19 @@ class DishDetail extends Component {
       }
       </ul>
     );
-      }
+  }
 
-      render() {
-        console.log("DishDetailComponent render invoked");
-        console.log(this.props.dish);
-        if(this.props.dish!=null){
+  const  DishDetail = (props) => {
+        if(props.dish!=null){
           return(
           <div className="container">
             <div className="row">
              <div className="col-12 col-md-5 m-1">
-               {this.renderDish(this.props.dish)}
+               <RenderDish dish={props.dish} />
              </div>
              <div className="col-12 col-md-5 m-1">
                <h4>Comments</h4>
-               {this.renderComments(this.props.dish.comments)}
+                <RenderComments comment_dish={props.dish.comments}/>
              </div>
             </div>
           </div>
@@ -64,13 +56,5 @@ class DishDetail extends Component {
       }
     }
 
-    componentDidMount() {
-      console.log("DishdetailComponent componentDidMount invoked");
-    }
-
-    componentDidUpdate(){
-      console.log("DishDetailComponent componentDidUpdate invoked");
-    }
-}
 
 export default DishDetail;
